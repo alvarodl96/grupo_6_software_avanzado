@@ -1,0 +1,144 @@
+---
+swagger: "2.0"
+info:
+  description: "API para la gestión de las matrículas y las nóminas"
+  version: "1.0.0"
+  title: "API para la gestión de cobros y pagos"
+host: "localhost:8080"
+basePath: "/cobros"
+tags:
+- name: "Pagos"
+- name: "Matricula"
+- name: "Alumno"
+- name: "Profesor"
+schemes:
+- "https"
+paths:
+  /alumno:
+    post:
+      tags:
+      - "Alumno"
+      summary: "Crea un alumno"
+      description: "Añade un alumno a la lista de alumnos"
+      operationId: "alumno_post"
+      parameters:
+      - in: "body"
+        name: "dni"
+        description: "El alumno ha sido creado"
+        required: false
+        schema:
+          $ref: "#/definitions/dni"
+      responses:
+        200:
+          description: "Alumno creado correctamente"
+        400:
+          description: "El alumno no se ha podido crear"
+      x-swagger-router-controller: "swagger_server.controllers.alumno_controller"
+  /profesor:
+    post:
+      tags:
+      - "Profesor"
+      summary: "Crea un profesor"
+      description: "Añade un profesor a la lista de profesores"
+      operationId: "profesor_post"
+      parameters:
+      - in: "body"
+        name: "dni"
+        description: "El profesor ha sido creado"
+        required: false
+        schema:
+          $ref: "#/definitions/dni_1"
+      responses:
+        200:
+          description: "Profesor creado correctamente"
+        400:
+          description: "Profesor no creado correctamente"
+      x-swagger-router-controller: "swagger_server.controllers.profesor_controller"
+  /pagos:
+    get:
+      tags:
+      - "Pagos"
+      summary: "Consulta la nomina del profesor"
+      description: "hace una consulta para comprobar la nomina del profesor"
+      operationId: "pagos_get"
+      parameters:
+      - name: "dni"
+        in: "query"
+        description: "DNI del profesor"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/inline_response_200"
+        400:
+          description: "El profesor no existe"
+      x-swagger-router-controller: "swagger_server.controllers.pagos_controller"
+  /matricula:
+    post:
+      tags:
+      - "Matricula"
+      summary: "Crea matricula"
+      description: "Crea matricula"
+      operationId: "matricula_post"
+      parameters:
+      - in: "body"
+        name: "dni"
+        description: "La matricula ha sido creada"
+        required: false
+        schema:
+          $ref: "#/definitions/dni_2"
+      responses:
+        200:
+          description: "OK"
+        400:
+          description: "No se ha creado correctamente"
+      x-swagger-router-controller: "swagger_server.controllers.matricula_controller"
+definitions:
+  dni_1:
+    required:
+    - "dni"
+    properties:
+      dni:
+        type: "integer"
+      Nombre:
+        type: "string"
+      Apellidos:
+        type: "string"
+  dni_2:
+    required:
+    - "dni"
+    properties:
+      dni:
+        type: "integer"
+      id:
+        type: "integer"
+      precio:
+        type: "integer"
+      plazos:
+        type: "integer"
+      reserva:
+        type: "integer"
+  inline_response_200:
+    required:
+    - "dni"
+    properties:
+      dni:
+        type: "integer"
+  dni:
+    required:
+    - "dni"
+    properties:
+      dni:
+        type: "integer"
+      Nombre:
+        type: "string"
+      Apellidos:
+        type: "string"
+      Asignatura:
+        type: "string"
+      Plazos:
+        type: "integer"
