@@ -1,0 +1,183 @@
+---
+swagger: "2.0"
+info:
+  description: "API para la reserva y alquiler de aulas"
+  version: "1.0.0"
+  title: "API para la gestión de espacios y medios"
+host: "localhost:8080"
+basePath: "/espacios"
+tags:
+- name: "Profesor"
+  description: "Operaciones sobre los profesores"
+- name: "Aula"
+  description: "Operaciones sobre las aulas"
+- name: "Departamento"
+  description: "Operaciones sobre los departamentos"
+- name: "GestionEYM"
+  description: "gestion de los espacios"
+schemes:
+- "https"
+paths:
+  /Profesor:
+    post:
+      tags:
+      - "Profesor"
+      summary: "Crea un profesor"
+      description: "Añade un profesor a la lista de profesores"
+      operationId: "crea_profesor"
+      parameters:
+      - in: "body"
+        name: "dni"
+        description: "El profesor ha sido creado"
+        required: false
+        schema:
+          $ref: "#/definitions/Profesor"
+      responses:
+        200:
+          description: "Profesor creado correctamente"
+        400:
+          description: "El profesor no se ha podido crear"
+      x-swagger-router-controller: "swagger_server.controllers.profesor_controller"
+  /Aula:
+    post:
+      tags:
+      - "Aula"
+      summary: "Crea un aula"
+      description: "Añade un aula a la lista de aulas"
+      operationId: "crea_aula"
+      parameters:
+      - in: "body"
+        name: "numero_aula"
+        description: "El aula ha sido creada"
+        required: false
+        schema:
+          $ref: "#/definitions/Aula"
+      responses:
+        200:
+          description: "Aula creada correctamente"
+        400:
+          description: "Aula no creada correctamente"
+      x-swagger-router-controller: "swagger_server.controllers.aula_controller"
+  /Departamento:
+    post:
+      tags:
+      - "Departamento"
+      summary: "Crea Departamento"
+      description: "Crea departamento"
+      operationId: "crea_departamento"
+      parameters:
+      - in: "body"
+        name: "codigo"
+        description: "El departamento ha sido creado"
+        required: false
+        schema:
+          $ref: "#/definitions/Departamento"
+      responses:
+        200:
+          description: "OK"
+        400:
+          description: "No se ha creado correctamente"
+      x-swagger-router-controller: "swagger_server.controllers.departamento_controller"
+  /GestionEYM:
+    get:
+      tags:
+      - "GestionEYM"
+      summary: "Devuelve aula"
+      description: "Devuelve si esta ocupada"
+      operationId: "devuelve_boolean_aula"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "id de la gestion"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/GestionEYM"
+        400:
+          description: "El aula no existe"
+      x-swagger-router-controller: "swagger_server.controllers.gestion_eym_controller"
+  /GestionEYM/ReservarAula:
+    put:
+      tags:
+      - "GestionEYM"
+      summary: "Reserva aula"
+      description: "Reserva un aula"
+      operationId: "reserva_aula"
+      parameters:
+      - in: "body"
+        name: "id"
+        description: "id de la gestion"
+        required: true
+        schema:
+          $ref: "#/definitions/GestionEYM"
+      responses:
+        200:
+          description: "Aula reservada correctamente"
+        400:
+          description: "El aula no se ha podido reservar"
+      x-swagger-router-controller: "swagger_server.controllers.gestion_eym_controller"
+  /GestionEYM/DevolverFactura:
+    get:
+      tags:
+      - "GestionEYM"
+      summary: "Devuelve factura"
+      description: "Devuelve la factura"
+      operationId: "devuelve_factura"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "id de la gestion"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/GestionEYM"
+        400:
+          description: "El aula no existe"
+      x-swagger-router-controller: "swagger_server.controllers.gestion_eym_controller"
+definitions:
+  Profesor:
+    type: "object"
+    properties:
+      dni:
+        type: "integer"
+      nombre:
+        type: "string"
+      apellidos:
+        type: "string"
+      asignatura:
+        type: "string"
+  GestionEYM:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      factura:
+        type: "string"
+      ocupada:
+        type: "boolean"
+  Aula:
+    type: "object"
+    properties:
+      numero_aula:
+        type: "integer"
+      capacidad:
+        type: "integer"
+      precio:
+        type: "integer"
+      ocupada:
+        type: "boolean"
+  Departamento:
+    type: "object"
+    properties:
+      codigo:
+        type: "integer"
