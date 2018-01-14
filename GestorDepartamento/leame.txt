@@ -1,3 +1,0 @@
-La carpeta contiene dos subcarpetas con los siguientes contenidos.
--ApiRest: contiene un txt con la información equivalente a un archuvo .yalm
--MySQL: contiene la base de datos en MySQL.
