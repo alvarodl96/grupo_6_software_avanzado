@@ -4,20 +4,20 @@ https://www.apachefriends.org/es/index.html
 2- Una vez descargado, al instalar seleccionar los componentes: 
 Apache, MySQL, PHP, phpMyAdmin
 
-3- Copiar en la carpeta de instalacion de XAMPP la pagina web, para ello ir a
-xampp\htdocs y añadir la carpeta profesores que se encuentra en la carpeta pagina_web
+3- Iniciar los servidores de Apache y MySQL, se pueden iniciar ejecutando xampp-control.exe dentro de la carpeta de instalacion de XAMMP
 
-4- Iniciar los servidores de Apache y MySQL, se pueden iniciar ejecutando xampp-control.exe dentro de la carpeta de instalacion de XAMMP
+4- Para importar la base de datos acceder a http://localhost/phpmyadmin/ . En la pestaña importar seleccionar el archivo
+universidad.sql.zip que se encuentra en la carpeta base_de_datos
 
-Ahora se podrá acceder al login de los profesores accediendo desde el navegador a la página http://localhost/profesores
+5- Instalar conector para poder acceder a la base de datos desde Python.
+pip install mysql-connector-python-rf
 
-5- Para importar la base de datos acceder a http://localhost/phpmyadmin/ . En la pestaña importar seleccionar el archivo
-127_0_0_1.sql.zip que se encuentra en la carpeta base_de_datos
+Es posible que también se necesite actualizar:
+pip install -U setuptools
+pip install -U wheel
 
 6- Arrancar el servidor del API Rest para ello ir a la carpeta python-flask-server y ejecutar el comando:
 python -m swagger_server
 Se puede acceder al API Rest desde la página: http://localhost:8080/profesores/ui/
 
-7- Ahora se podrá entrar con un usuario de profesor, por ejemplo "juan.antonio" y acceder la calificación de su asignatura que es Algoritmia desde la página 
-http://localhost/profesores
 
