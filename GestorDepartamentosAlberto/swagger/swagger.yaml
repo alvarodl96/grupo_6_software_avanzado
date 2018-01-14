@@ -1,0 +1,346 @@
+---
+swagger: "2.0"
+info:
+  description: "API para la gestión de departamentos."
+  version: "1.0.15"
+  title: "API para la gestión de departamentos"
+host: "localhost:8080"
+basePath: "/gestor_departamento"
+tags:
+- name: "Departamento"
+  description: "Gestion de departamentos"
+- name: "Asignatura"
+  description: "Gestion de asignaturas"
+- name: "Profesor"
+  description: "Gestion de profesores"
+schemes:
+- "https"
+paths:
+  /departamento:
+    get:
+      tags:
+      - "Departamento"
+      summary: "Obtiene un departamento"
+      description: "Devuelve un departamento"
+      operationId: "get_departamento"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "Codigo"
+        in: "query"
+        description: "Codigo del departamento"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "Departamento de la universidad"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/departamento"
+      x-swagger-router-controller: "swagger_server.controllers.departamento_controller"
+    post:
+      tags:
+      - "Departamento"
+      summary: "Crea departamento"
+      description: "Añade un departamento al sistema"
+      operationId: "post_departamento"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "departamento"
+        description: "El Departamento es creado"
+        required: true
+        schema:
+          $ref: "#/definitions/departamento"
+      responses:
+        200:
+          description: "Departamento correctamente creado"
+        400:
+          description: "Departamento imposible de crear"
+      x-swagger-router-controller: "swagger_server.controllers.departamento_controller"
+  /departamento/{Num_Departamento}:
+    delete:
+      tags:
+      - "Departamento"
+      summary: "Borra un departamento"
+      description: "Borra un departamento del sistema"
+      operationId: "delete_departamento"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/json"
+      - "application/xml"
+      parameters:
+      - name: "Num_Departamento"
+        in: "path"
+        description: "Codigo del departamento a borrar"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Borrado correcto"
+        400:
+          description: "Codigo no encontrado"
+      x-swagger-router-controller: "swagger_server.controllers.departamento_controller"
+  /asignatura:
+    get:
+      tags:
+      - "Asignatura"
+      summary: "Obtiene una asignatura"
+      description: "Devuelve una asignatura"
+      operationId: "get_asignatura"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/json"
+      - "application/xml"
+      parameters:
+      - name: "Codigo"
+        in: "query"
+        description: "Codigo de la asignatura"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "Una asignatura"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/asignatura"
+      x-swagger-router-controller: "swagger_server.controllers.asignatura_controller"
+    post:
+      tags:
+      - "Asignatura"
+      summary: "Crea una asignatura"
+      description: "Añade una asignatura a la base de datos"
+      operationId: "post_asignatura"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "asignatura"
+        description: "La asignatura que se crea"
+        required: true
+        schema:
+          $ref: "#/definitions/asignatura"
+      responses:
+        200:
+          description: "Asignatura creada correctamente"
+        400:
+          description: "Error al crear asignatura"
+      x-swagger-router-controller: "swagger_server.controllers.asignatura_controller"
+  /asignatura/{Codigo}:
+    delete:
+      tags:
+      - "Asignatura"
+      summary: "Borra una asignatura"
+      description: "Borra una asignatura de la base de datos"
+      operationId: "delete_asignatura"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/json"
+      - "application/xml"
+      parameters:
+      - name: "Codigo"
+        in: "path"
+        description: "Codigo de la asignatura que se quiere borrar"
+        required: true
+        type: "integer"
+      responses:
+        400:
+          description: "Codigo escrito no valido"
+        404:
+          description: "Asignatura no encontrada"
+      x-swagger-router-controller: "swagger_server.controllers.asignatura_controller"
+  /profesor:
+    get:
+      tags:
+      - "Profesor"
+      summary: "Obtiene profesor"
+      description: "Devuelve un profesor"
+      operationId: "profesor_get"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/json"
+      - "application/xml"
+      parameters:
+      - name: "DNI_profesor"
+        in: "query"
+        description: "DNI del profesor"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "Un profesor"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/profesor"
+      x-swagger-router-controller: "swagger_server.controllers.profesor_controller"
+    post:
+      tags:
+      - "Profesor"
+      summary: "Crea un profesor"
+      description: "Añade una profesor al sistema"
+      operationId: "profesor_post"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "profesor"
+        description: "El profesor que se crea"
+        required: true
+        schema:
+          $ref: "#/definitions/profesor"
+      responses:
+        200:
+          description: "Profesor creado correctamente"
+        400:
+          description: "Error al crear profesor"
+      x-swagger-router-controller: "swagger_server.controllers.profesor_controller"
+  /AsignarProfesor:
+    put:
+      tags:
+      - "Asignatura"
+      summary: "Le pasa un profesor a la asignatura"
+      description: "Actualiza un profesor a la asignatura"
+      operationId: "asigna_profesor"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "cambio"
+        description: "Asignatura va a actualizarse"
+        required: true
+        schema:
+          $ref: "#/definitions/cambio"
+      responses:
+        200:
+          description: "Asignatura actualizada correctamente."
+        400:
+          description: "La asignatura no ha podido ser actualizada."
+      x-swagger-router-controller: "swagger_server.controllers.asignatura_controller"
+  /AsignarDepartamento:
+    put:
+      tags:
+      - "Asignatura"
+      summary: "Le pasa un departamento a la asignatura"
+      description: "Actualiza un departamento a la asignatura"
+      operationId: "asigna_departamento"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "cambioDeparta"
+        description: "Asignatura va a actualizarse"
+        required: true
+        schema:
+          $ref: "#/definitions/cambioDeparta"
+      responses:
+        200:
+          description: "Asignatura actualizado correctamente."
+        400:
+          description: "La asignatura no ha podido ser actualizada."
+      x-swagger-router-controller: "swagger_server.controllers.asignatura_controller"
+  /Profesor/{DNI_profesor}:
+    delete:
+      tags:
+      - "Profesor"
+      summary: "Borra un profesor"
+      description: "Borra un profesor del sistema"
+      operationId: "delete_profesor"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "DNI_profesor"
+        in: "path"
+        description: "DNI del profesor cuya matricula se quiera borrar"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "Profesor borrado correctamente"
+        400:
+          description: "Profesor no borrado"
+      x-swagger-router-controller: "swagger_server.controllers.profesor_controller"
+definitions:
+  asignatura:
+    type: "object"
+    properties:
+      Nombre_Asignatura:
+        type: "string"
+      Codigo:
+        type: "integer"
+      Profesor:
+        type: "integer"
+      Num_Departamento:
+        type: "integer"
+  departamento:
+    type: "object"
+    properties:
+      Edificio:
+        type: "string"
+      Nomb_Departamento:
+        type: "string"
+      Num_Departamento:
+        type: "integer"
+      Titulacion:
+        type: "string"
+  profesor:
+    type: "object"
+    properties:
+      DNI_profesor:
+        type: "integer"
+      Carga_Trabajo:
+        type: "integer"
+  cambio:
+    type: "object"
+    properties:
+      Codigo:
+        type: "integer"
+      Profesor:
+        type: "integer"
+  cambioDeparta:
+    type: "object"
+    properties:
+      Codigo:
+        type: "integer"
+      Num_Departamento:
+        type: "integer"
