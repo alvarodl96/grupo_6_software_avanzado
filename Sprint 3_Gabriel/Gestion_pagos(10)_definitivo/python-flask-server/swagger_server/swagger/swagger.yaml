@@ -1,0 +1,426 @@
+---
+swagger: "2.0"
+info:
+  description: "API para la gestión de las matrículas y las nóminas"
+  version: "1.0.0"
+  title: "API para la gestión de cobros y pagos"
+host: "localhost:8080"
+basePath: "/cobros"
+tags:
+- name: "Pagos"
+- name: "Matricula"
+- name: "Alumno"
+- name: "Profesor"
+schemes:
+- "https"
+paths:
+  /alumno:
+    post:
+      tags:
+      - "Alumno"
+      summary: "Crea un alumno"
+      description: "Añade un alumno a la lista de alumnos"
+      operationId: "crea_alumno"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "alumno"
+        description: "El alumno se va a crear"
+        required: true
+        schema:
+          $ref: "#/definitions/alumno"
+      responses:
+        200:
+          description: "Alumno creado correctamente"
+        400:
+          description: "El alumno no se ha podido crear"
+      x-swagger-router-controller: "swagger_server.controllers.alumno_controller"
+  /delete-alumnos/{dni}:
+    delete:
+      tags:
+      - "Alumno"
+      summary: "Borra alumno"
+      description: "Borra un alumno"
+      operationId: "borrar_alumno"
+      parameters:
+      - name: "dni"
+        in: "path"
+        description: "DNI del alumno"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "Alumno borrado correctamente"
+        400:
+          description: "El alumno no se ha podido borrar"
+      x-swagger-router-controller: "swagger_server.controllers.alumno_controller"
+  /get-alumnos/{dni}:
+    get:
+      tags:
+      - "Alumno"
+      summary: "Consulta un alumno"
+      description: "Consulta un alumno dado su dni"
+      operationId: "get_alumno"
+      parameters:
+      - name: "dni"
+        in: "path"
+        description: "Dni del alumno"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "Operacion correcta"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/alumno"
+        400:
+          description: "El alumno no existe"
+      x-swagger-router-controller: "swagger_server.controllers.alumno_controller"
+  /profesor:
+    post:
+      tags:
+      - "Profesor"
+      summary: "Crea un profesor"
+      description: "Añade un profesor a la lista de profesores"
+      operationId: "crea_profesor"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "profesor"
+        description: "Se va a añadir un profesor"
+        required: true
+        schema:
+          $ref: "#/definitions/profesor"
+      responses:
+        200:
+          description: "Profesor creado correctamente"
+        400:
+          description: "Profesor no creado correctamente"
+      x-swagger-router-controller: "swagger_server.controllers.profesor_controller"
+    put:
+      tags:
+      - "Profesor"
+      summary: "Actualiza el pago a profesor"
+      description: "Actualiza el pago al profesor"
+      operationId: "actualizar_pago_profesor"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "dni"
+        description: "Se va a actualizar el pago"
+        required: true
+        schema:
+          $ref: "#/definitions/actualizacion_pago"
+      responses:
+        200:
+          description: "Pago actualizado"
+        400:
+          description: "No se ha podido actualizar el pago"
+      x-swagger-router-controller: "swagger_server.controllers.profesor_controller"
+  /delete-profesores/{dni}:
+    delete:
+      tags:
+      - "Profesor"
+      summary: "Borra un profesor"
+      description: "Borra un profesor"
+      operationId: "borrar_profesor"
+      parameters:
+      - name: "dni"
+        in: "path"
+        description: "DNI del profesor"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "Profesor borrado correctamente"
+        400:
+          description: "No se ha podido borrar el profesor"
+      x-swagger-router-controller: "swagger_server.controllers.profesor_controller"
+  /get-profesores/{dni}:
+    get:
+      tags:
+      - "Profesor"
+      summary: "consulta un profesor"
+      description: "consulta caracteristicas profesor"
+      operationId: "get_profesor"
+      parameters:
+      - name: "dni"
+        in: "path"
+        description: "Dni del profesor"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "Operacion correcta"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/profesor"
+        400:
+          description: "El alumno no existe"
+      x-swagger-router-controller: "swagger_server.controllers.profesor_controller"
+  /pagos:
+    post:
+      tags:
+      - "Pagos"
+      summary: "Inserta un pago"
+      description: "Inserta un pago"
+      operationId: "crea_pago"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "pago"
+        description: "El pago se va a crear"
+        required: true
+        schema:
+          $ref: "#/definitions/pagos"
+      responses:
+        200:
+          description: "OK"
+        400:
+          description: "No se ha podido crear el pago"
+      x-swagger-router-controller: "swagger_server.controllers.pagos_controller"
+    put:
+      tags:
+      - "Pagos"
+      summary: "Actualiza el pago a profesor"
+      description: "Actualiza el pago al profesor"
+      operationId: "actualizar_pago"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "dni"
+        description: "Se va a actualizar el pago"
+        required: true
+        schema:
+          $ref: "#/definitions/actualizacion_pago"
+      responses:
+        200:
+          description: "Pago actualizado"
+        400:
+          description: "No se ha podido actualizar el pago"
+      x-swagger-router-controller: "swagger_server.controllers.pagos_controller"
+  /get-pagos/{dni}:
+    get:
+      tags:
+      - "Pagos"
+      summary: "Consulta la nomina del profesor"
+      description: "hace una consulta para comprobar la nomina del profesor"
+      operationId: "pago_profesor"
+      parameters:
+      - name: "dni"
+        in: "path"
+        description: "DNI del profesor"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/pagos"
+        400:
+          description: "El profesor no existe"
+      x-swagger-router-controller: "swagger_server.controllers.pagos_controller"
+  /delete-pagos/{id}:
+    delete:
+      tags:
+      - "Pagos"
+      summary: "Borra un pago"
+      description: "Borra un pago segun el id"
+      operationId: "borrar_pago"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID matricula"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "Pago borrado correctamente"
+        400:
+          description: "No se ha podido borrar el pago"
+      x-swagger-router-controller: "swagger_server.controllers.pagos_controller"
+  /matricula:
+    post:
+      tags:
+      - "Matricula"
+      summary: "Crea matricula"
+      description: "Crea matricula del alumno"
+      operationId: "crear_matricula"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "matricula"
+        description: "La matricula se va a crear"
+        required: true
+        schema:
+          $ref: "#/definitions/matricula"
+      responses:
+        200:
+          description: "OK"
+        400:
+          description: "No se ha creado correctamente"
+      x-swagger-router-controller: "swagger_server.controllers.matricula_controller"
+    put:
+      tags:
+      - "Matricula"
+      summary: "Actualiza la matricula"
+      description: "actualiza la matricula despues de hacer la matricula el alumno"
+      operationId: "actualizar_matricula"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "dni"
+        description: "El precio se va a actualizar"
+        required: true
+        schema:
+          $ref: "#/definitions/actualizacion_matricula"
+      responses:
+        200:
+          description: "Matricula actualizada"
+        400:
+          description: "No se ha podido actualizar la matricula"
+      x-swagger-router-controller: "swagger_server.controllers.matricula_controller"
+  /get-matricula/{dni}:
+    get:
+      tags:
+      - "Matricula"
+      summary: "Consulta la matricula del alumno"
+      description: "Consulta la matricula del alumno dado su dni"
+      operationId: "get_matricula"
+      parameters:
+      - name: "dni"
+        in: "path"
+        description: "DNI del alumno"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/matricula"
+        400:
+          description: "El alumno no existe"
+      x-swagger-router-controller: "swagger_server.controllers.matricula_controller"
+  /delete-matricula/{dni}:
+    delete:
+      tags:
+      - "Matricula"
+      summary: "Borra una matricula"
+      description: "Borra una matricula dado el dni del alumno"
+      operationId: "borra_matricula"
+      parameters:
+      - name: "dni"
+        in: "path"
+        description: "DNI del alumno"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "Matricula borrada correctamente"
+        400:
+          description: "No se ha podido borra la matricula"
+      x-swagger-router-controller: "swagger_server.controllers.matricula_controller"
+definitions:
+  matricula:
+    type: "object"
+    properties:
+      dni_alumno:
+        type: "integer"
+      id:
+        type: "integer"
+      precio:
+        type: "integer"
+      plazos:
+        type: "integer"
+      reserva:
+        type: "integer"
+  pagos:
+    type: "object"
+    properties:
+      dni_profesor:
+        type: "integer"
+      id:
+        type: "integer"
+      nomina:
+        type: "integer"
+      carga_trabajo:
+        type: "integer"
+      impreso:
+        type: "string"
+      recordatorio:
+        type: "string"
+  alumno:
+    type: "object"
+    properties:
+      dni:
+        type: "integer"
+      Nombre:
+        type: "string"
+      Apellidos:
+        type: "string"
+      Asignatura:
+        type: "string"
+  profesor:
+    type: "object"
+    properties:
+      dni:
+        type: "integer"
+      Nombre:
+        type: "string"
+      Apellidos:
+        type: "string"
+  actualizacion_pago:
+    type: "object"
+    properties:
+      dni_profesor:
+        type: "integer"
+      nomina:
+        type: "integer"
+  actualizacion_matricula:
+    type: "object"
+    properties:
+      dni_alumno:
+        type: "integer"
+      precio:
+        type: "integer"

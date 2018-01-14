@@ -1,0 +1,67 @@
++swagger: '2.0'
++info:
++  version: 1.0.0
++  title: API para la gestión de departamentos
++  description: API para la gestión de departamentos
++host: 'localhost:8080'
++basePath: /departamentos
++tags:
++  - name: Departamento
++  - name: Profesor
++schemes:
++  - https
++paths:
++  /departamento:
++    post:
++      tags:
++        - Departamento
++      summary: Crea departamento
++      description: Añade un departamento a la base de datos.
++      parameters:
++        - name: Num_Departamento
++          in: body
++          description: El departamento ha sido creado
++          schema:
++            required:
++              - Num_Departamento
++            properties:
++              Edificio:
++                type: string
++              Nomb_Departamento:
++                type: string
++              Num_Departamento:
++                type: string
++              Titulación:
++                type: string
++      responses:
++        '200':
++          description: Departamento creado correctamente
++        '400':
++          description: Departamento incorrecto
++  /profesor:
++    post:
++      tags:
++        - Profesor
++      summary: Crea un profesor
++      description: Añade profesor a la tabla de profesores
++      parameters:
++        - name: DNI_PROF
++          in: body
++          description: El profesor ha sido creado
++          schema:
++            required:
++              - DNI_PROF
++            properties:
++              DNI_PROF:
++                type: string
++              Carga_trabajo
++                type: string
++              Num_departamento:
++                type: string
++      responses:
++        '200':
++          description: Profesor creado correctamente
++        '400':
++          description: Profesor incorrecto
++  
++  
