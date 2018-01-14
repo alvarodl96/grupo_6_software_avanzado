@@ -46,6 +46,25 @@ paths:
         400:
           description: "La nota no ha podido ser actualizada."
       x-swagger-router-controller: "swagger_server.controllers.notas_controller"
+  /cerrar-acta/{idAsignatura}:
+    put:
+      tags:
+      - "Notas"
+      summary: "Cierra el acta de una asignatura"
+      description: "Indican que todas los alumnos de una asignatura han sido calificados."
+      operationId: "cerrar_acta"
+      parameters:
+      - name: "idAsignatura"
+        in: "path"
+        description: "ID de la asignatura"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "Acta cerrada correctamente."
+        400:
+          description: "El acta no ha podido ser cerrada."
+      x-swagger-router-controller: "swagger_server.controllers.notas_controller"
   /notas/by-asignatura/{id}:
     get:
       tags:

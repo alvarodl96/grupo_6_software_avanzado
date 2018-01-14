@@ -25,6 +25,16 @@ class TestNotasController(BaseTestCase):
                                     content_type='application/json')
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
 
+    def test_cerrar_acta(self):
+        """
+        Test case for cerrar_acta
+
+        Cierra el acta de una asignatura
+        """
+        response = self.client.open('/profesores/cerrar-acta/{idAsignatura}'.format(idAsignatura=56),
+                                    method='PUT')
+        self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
+
     def test_notas_dni_alumno_get(self):
         """
         Test case for notas_dni_alumno_get
