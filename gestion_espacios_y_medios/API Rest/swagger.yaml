@@ -11,10 +11,8 @@ tags:
   description: "Operaciones sobre los profesores"
 - name: "Aula"
   description: "Operaciones sobre las aulas"
-- name: "Departamento"
-  description: "Operaciones sobre los departamentos"
-- name: "GestionEYM"
-  description: "gestion de los espacios"
+- name: "Asignatura"
+  description: "Operaciones sobre las asignaturas"
 schemes:
 - "https"
 paths:
@@ -25,11 +23,17 @@ paths:
       summary: "Crea un profesor"
       description: "Añade un profesor a la lista de profesores"
       operationId: "crea_profesor"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
       parameters:
       - in: "body"
         name: "dni"
-        description: "El profesor ha sido creado"
-        required: false
+        description: "El profesor que se va a añadir"
+        required: true
         schema:
           $ref: "#/definitions/Profesor"
       responses:
@@ -38,16 +42,89 @@ paths:
         400:
           description: "El profesor no se ha podido crear"
       x-swagger-router-controller: "swagger_server.controllers.profesor_controller"
+  /delete-profesor/{dni}:
+    delete:
+      tags:
+      - "Profesor"
+      summary: "Borra un profesor"
+      description: "Borra un profesor"
+      operationId: "borra_profesor"
+      parameters:
+      - name: "dni"
+        in: "path"
+        description: "DNI del profesor"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "Profesor borrado correctamente."
+        400:
+          description: "El profesor no ha podido ser borrado."
+      x-swagger-router-controller: "swagger_server.controllers.profesor_controller"
+  /get-profesor/{dni}:
+    get:
+      tags:
+      - "Profesor"
+      summary: "Devuelve un profesor"
+      description: "Devuelve un profesor"
+      operationId: "devuelve_profesor"
+      parameters:
+      - name: "dni"
+        in: "path"
+        description: "dni del profesor"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "Operacion correcta"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Profesor"
+        400:
+          description: "El profesor no existe"
+      x-swagger-router-controller: "swagger_server.controllers.profesor_controller"
   /Aula:
+    put:
+      tags:
+      - "Aula"
+      summary: "Reserva aula y genera factura"
+      description: "Reserva el aula y genera factura"
+      operationId: "reserva_aula"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "numero_aula"
+        in: "path"
+        description: "numero_aula"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "Aula reservada correctamente"
+        400:
+          description: "El aula no se ha podido reservar"
+      x-swagger-router-controller: "swagger_server.controllers.aula_controller"
+  /post-aula/:
     post:
       tags:
       - "Aula"
       summary: "Crea un aula"
       description: "Añade un aula a la lista de aulas"
       operationId: "crea_aula"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
       parameters:
       - in: "body"
-        name: "numero_aula"
+        name: "aula"
         description: "El aula ha sido creada"
         required: false
         schema:
@@ -58,92 +135,116 @@ paths:
         400:
           description: "Aula no creada correctamente"
       x-swagger-router-controller: "swagger_server.controllers.aula_controller"
-  /Departamento:
+  /delete-aula/{numero}:
+    delete:
+      tags:
+      - "Aula"
+      summary: "Borra un aula"
+      description: "Borra un aula"
+      operationId: "borra_aula"
+      parameters:
+      - name: "numero"
+        in: "path"
+        description: "codigo del aula"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "Aula borrada correctamente."
+        400:
+          description: "El aula no ha podido ser borrada."
+      x-swagger-router-controller: "swagger_server.controllers.aula_controller"
+  /get-aula/{numero}:
+    get:
+      tags:
+      - "Aula"
+      summary: "Devuelve un aula"
+      description: "Devuelve un aula"
+      operationId: "devuelve_aula"
+      parameters:
+      - name: "numero"
+        in: "path"
+        description: "numero del aula"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "Operacion correcta"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Aula"
+        400:
+          description: "El aula no existe"
+      x-swagger-router-controller: "swagger_server.controllers.aula_controller"
+  /Asignatura:
     post:
       tags:
-      - "Departamento"
-      summary: "Crea Departamento"
-      description: "Crea departamento"
-      operationId: "crea_departamento"
+      - "Asignatura"
+      summary: "Crea asignatura"
+      description: "Crea asignatura"
+      operationId: "crea_asignatura"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
       parameters:
       - in: "body"
-        name: "codigo"
-        description: "El departamento ha sido creado"
+        name: "asignatura"
+        description: "La asignatura se va a añadir"
         required: false
         schema:
-          $ref: "#/definitions/Departamento"
+          $ref: "#/definitions/Asignatura"
       responses:
         200:
-          description: "OK"
+          description: "Asignatura creada correctamente"
         400:
           description: "No se ha creado correctamente"
-      x-swagger-router-controller: "swagger_server.controllers.departamento_controller"
-  /GestionEYM:
-    get:
+      x-swagger-router-controller: "swagger_server.controllers.asignatura_controller"
+  /delete-asignatura/{codigo}:
+    delete:
       tags:
-      - "GestionEYM"
-      summary: "Devuelve aula"
-      description: "Devuelve si esta ocupada"
-      operationId: "devuelve_boolean_aula"
+      - "Asignatura"
+      summary: "Borra una asignatura"
+      description: "Borra una asignatura"
+      operationId: "borra_asignatura"
       parameters:
-      - name: "id"
+      - name: "codigo"
         in: "path"
-        description: "id de la gestion"
+        description: "codigo de la asignatura"
         required: true
         type: "integer"
       responses:
         200:
-          description: "OK"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/GestionEYM"
+          description: "Asignatura borrada correctamente."
         400:
-          description: "El aula no existe"
-      x-swagger-router-controller: "swagger_server.controllers.gestion_eym_controller"
-  /GestionEYM/ReservarAula:
-    put:
-      tags:
-      - "GestionEYM"
-      summary: "Reserva aula"
-      description: "Reserva un aula"
-      operationId: "reserva_aula"
-      parameters:
-      - in: "body"
-        name: "id"
-        description: "id de la gestion"
-        required: true
-        schema:
-          $ref: "#/definitions/GestionEYM"
-      responses:
-        200:
-          description: "Aula reservada correctamente"
-        400:
-          description: "El aula no se ha podido reservar"
-      x-swagger-router-controller: "swagger_server.controllers.gestion_eym_controller"
-  /GestionEYM/DevolverFactura:
+          description: "La asignatura no ha podido ser borrada."
+      x-swagger-router-controller: "swagger_server.controllers.asignatura_controller"
+  /get-asignatura/{codigo}:
     get:
       tags:
-      - "GestionEYM"
-      summary: "Devuelve factura"
-      description: "Devuelve la factura"
-      operationId: "devuelve_factura"
+      - "Asignatura"
+      summary: "Devuelve una asignatura"
+      description: "Devuelve una asignatura"
+      operationId: "devuelve_asignatura"
       parameters:
-      - name: "id"
+      - name: "codigo"
         in: "path"
-        description: "id de la gestion"
+        description: "codigo de la asignatura"
         required: true
         type: "integer"
       responses:
         200:
-          description: "OK"
+          description: "Operacion correcta"
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/GestionEYM"
+              $ref: "#/definitions/Asignatura"
         400:
-          description: "El aula no existe"
-      x-swagger-router-controller: "swagger_server.controllers.gestion_eym_controller"
+          description: "La asignatura no existe"
+      x-swagger-router-controller: "swagger_server.controllers.asignatura_controller"
 definitions:
   Profesor:
     type: "object"
@@ -154,30 +255,25 @@ definitions:
         type: "string"
       apellidos:
         type: "string"
-      asignatura:
+      nombre_usuario:
         type: "string"
-  GestionEYM:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-      factura:
-        type: "string"
-      ocupada:
-        type: "boolean"
   Aula:
     type: "object"
     properties:
+      codigo_asignatura:
+        type: "integer"
       numero_aula:
         type: "integer"
       capacidad:
         type: "integer"
       precio:
         type: "integer"
-      ocupada:
-        type: "boolean"
-  Departamento:
+      tipo:
+        type: "integer"
+  Asignatura:
     type: "object"
     properties:
-      codigo:
+      codigo_asignatura:
+        type: "integer"
+      numero_alumnos:
         type: "integer"
