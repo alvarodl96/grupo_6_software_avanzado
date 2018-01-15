@@ -54,8 +54,11 @@ def crear_asignatura(asignatura):
     try:
         cnx = mysql.connector.connect(user=user, password=password, database=database)    
         cursor = cnx.cursor()
-        cursor.execute("INSERT INTO `asignatura` (`id`, `dni_profesor`, `nombre`, `departamento`) "
-                   +"VALUES (\'{}\', \'{}\', \'{}\', \'{}\')".format(asignatura.id, asignatura.dni_profesor, asignatura.nombre, asignatura.departamento))
+        cursor.execute("INSERT INTO `asignatura` (`id`, `nombre`, `departamento`, `acta_cerrada`) "
+                   +"VALUES (\'{}\', \'{}\', \'{}\', 0)".format(asignatura.id, asignatura.nombre, asignatura.departamento))
+        cnx.commit()
+        cursor.execute("INSERT INTO `imparte` (`id_asignatura`, `dni_profesor`) "
+                   +"VALUES (\'{}\', \'{}\')".format(asignatura.id, asignatura.dni_profesor))
         cnx.commit()
     except mysql.connector.Error as e:
         cursor.close()

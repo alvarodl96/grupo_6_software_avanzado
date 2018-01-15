@@ -12,8 +12,8 @@ import requests
 user = "root"
 password = ""
 database = "universidad"
-ipDepartamentos = ""
-ipEspaciosMedios = ""
+ipDepartamentos = "172.22.95.158"
+ipEspaciosMedios = "172.22.86.66"
 ipPagosCobros = ""
 
 def borra_profesor(dni):
@@ -76,15 +76,15 @@ def crear_profesor(profesor):
     ############################Mandar profesor a Departamentos######################################
     apibase= "http://"+ipDepartamentos+":8080/gestor_departamento/profesor"
     try:
-        r = requests.post(apibase, json = {'DNI_profesor':profesor.dni, 'Carga_Trabajo':0})
-        r.raise_for_status()
+        s = requests.post(apibase, json = {'DNI_profesor':profesor.dni, 'Carga_Trabajo':0})
+        s.raise_for_status()
     except requests.exceptions.RequestException as e:
-            print("RequestException - Error al conectar con el microservicio de espacios y medios\n")
+            print("RequestException - Error al conectar con el microservicio de departamentos\n")
     ############################Mandar profesor a Pagos y Cobros######################################
     apibase= "http://"+ipPagosCobros+":8080/cobros/profesor"
     try:
-        r = requests.post(apibase, json = {'dni':profesor.dni, 'Nombre':profesor.nombre, 'Apellidos':profesor.apellidos, 'Nomina':0})
-        r.raise_for_status()
+        t = requests.post(apibase, json = {'dni':profesor.dni, 'Nombre':profesor.nombre, 'Apellidos':profesor.apellidos, 'Nomina':0})
+        t.raise_for_status()
     except requests.exceptions.RequestException as e:
             print("RequestException - Error al conectar con el microservicio de pagos y cobros\n")
     return "Profesor creado correctamente."
