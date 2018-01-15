@@ -1,4 +1,5 @@
 import connexion
+import requests 
 from swagger_server.models.asignatura import Asignatura
 from swagger_server.models.cambio import Cambio
 from swagger_server.models.cambio_departa import CambioDeparta
@@ -68,14 +69,14 @@ def asigna_profesor(cambio):
     cnx.commit()
     cursor.close()
     cnx.close()
-    """
-    apibase= "http://"+str(ipProfesores)+":8080/profesores/asignatura"
+        
+    apibase= "http://172.22.95.193:8080/profesores/asignatura"
     try:
-        r = requests.post(apibase, json = {'id':cambio.codigo, 'dniProfesor':cambio.profesor, 'nombre':nombre[0], 'departamento':departa[0]})
+        r = requests.post(apibase, json = {'id':cambio.codigo, 'dniProfesor':cambio.profesor, 'nombre':nombre, 'departamento':departa})
         r.raise_for_status()
     except requests.exceptions.RequestException as e:
         print("RequestException - Error al conectar con el microservicio de espacios y medios\n")
-    """
+    
     return "Profesor ha sido asignado a asignatura"
 
 

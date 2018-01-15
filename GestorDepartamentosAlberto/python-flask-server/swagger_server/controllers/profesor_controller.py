@@ -1,4 +1,5 @@
 import connexion
+import requests
 from swagger_server.models.profesor import Profesor
 from datetime import date, datetime
 from typing import List, Dict
@@ -76,12 +77,12 @@ def profesor_post(profesor):
         abort(400, "El profesor no ha podido ser creado.")
     cursor.close()
     cnx.close()
-    """
-    apibase= "http://"+str(ipGastosYCobros)+":8080/GastosYCobros/Pagos"
+
+    apibase= "http://172.22.95.193:8080/cobros/pagos"
     try:
-        r = requests.put(apibase, json = {'dniProfesor':profesor.dni_profesor, 'nomina':profesor.carga_trabajo })
+        r = requests.put(apibase, json = {'dni_profesor':profesor.dni_profesor, 'nomina':profesor.carga_trabajo})
         r.raise_for_status()
     except requests.exceptions.RequestException as e:
-        print("RequestException - Error al conectar con el microservicio de espacios y medios\n")
-    """
+        print("RequestException - Error al conectar con el microservicio de pagos y cobros\n")
+    
     return "Profesor creado correctamente."
