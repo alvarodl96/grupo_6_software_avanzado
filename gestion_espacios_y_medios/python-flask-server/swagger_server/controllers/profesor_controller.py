@@ -49,7 +49,7 @@ def crea_profesor(dni):
     :rtype: None
     """
     if connexion.request.is_json:
-        dni = Profesor.from_dict(connexion.request.get_json())
+        profesor = Profesor.from_dict(connexion.request.get_json())
     try:
         cnx = mysql.connector.connect(user=user, password=password, database=database)    
         cursor = cnx.cursor()

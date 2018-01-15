@@ -61,15 +61,8 @@ def crea_asignatura(asignatura=None):
         cnx.close()
         abort(400, "La asignatura no ha podido ser creada.")
     cursor.close()
-    cnx.close()
-    #apibase = "https://"+str(codigo_asignatura)+":8080/alumno_matriculacion/asignatura"
-    #try:
-    #    r = requests.post('apibase', json = {'codigo_asignatura':asignatura.codigo_asignatura})
-    #    r.raise_for_status()
-    #except requests.exceptions.RequestException as e:
-    #    print("RequestException - Error al conectar con el microservicio de matriculacion de alumnos\n")  
+    cnx.close()  
     return "Asignatura creada correctamente."
-
 
 
 def devuelve_asignatura(codigo):

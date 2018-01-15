@@ -5,3 +5,4 @@ from __future__ import absolute_import
 from .asignatura import Asignatura
 from .aula import Aula
 from .profesor import Profesor
+from .reserva import Reserva

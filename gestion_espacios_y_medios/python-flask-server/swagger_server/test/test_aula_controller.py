@@ -3,6 +3,7 @@
 from __future__ import absolute_import
 
 from swagger_server.models.aula import Aula
+from swagger_server.models.reserva import Reserva
 from . import BaseTestCase
 from six import BytesIO
 from flask import json
@@ -50,8 +51,10 @@ class TestAulaController(BaseTestCase):
 
         Reserva aula y genera factura
         """
-        response = self.client.open('/espacios/Aula'.format(numero_aula=56),
+        numero_aula = Reserva()
+        response = self.client.open('/espacios/Aula',
                                     method='PUT',
+                                    data=json.dumps(numero_aula),
                                     content_type='application/json')
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
 

@@ -98,11 +98,12 @@ paths:
       - "application/xml"
       - "application/json"
       parameters:
-      - name: "numero_aula"
-        in: "path"
+      - in: "body"
+        name: "numero_aula"
         description: "numero_aula"
         required: true
-        type: "integer"
+        schema:
+          $ref: "#/definitions/Reserva"
       responses:
         200:
           description: "Aula reservada correctamente"
@@ -269,11 +270,20 @@ definitions:
       precio:
         type: "integer"
       tipo:
-        type: "integer"
+        type: "string"
+      factura:
+        type: "string"
   Asignatura:
     type: "object"
     properties:
       codigo_asignatura:
         type: "integer"
       numero_alumnos:
+        type: "integer"
+  Reserva:
+    type: "object"
+    properties:
+      numero_aula:
+        type: "integer"
+      horas:
         type: "integer"
