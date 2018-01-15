@@ -1,5 +1,0 @@
-Alumno matriculación
-Gestión de pagos y cobros
-Gestión de espacios y medios
-Gestión de departamentos
-Profesores

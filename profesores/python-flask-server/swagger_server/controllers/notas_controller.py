@@ -13,8 +13,7 @@ import requests
 user = "root"
 password = ""
 database = "universidad"
-file = open("ips.txt", "r")
-ipMatriculacion = file.readline().split(":")[1]
+ipMatriculacion = "172.22.96.180"
 
 def actualiza_nota(calificacion):
     """
@@ -67,13 +66,15 @@ def cerrar_acta(idAsignatura):
     cursor = cnx.cursor()
     cursor.execute("SELECT `dni_alumno`, `nota` FROM `calificacion` WHERE `id_asignatura` = '"+str(idAsignatura)+"'")
     ############################Mandar nota a Matriculacion######################################
-    apibase= "http://"+str(ipMatriculacion)+":8080/matriculacion"
+    apibase= "http://"+ipMatriculacion+":8080/matriculacion/Matricula"
     for (dni_alumno, nota) in cursor:
+        aprobado=0
+        #print("dni: "+str(dni_alumno)+" id_asignatura "+str(idAsignatura)+" aprobado "+str(aprobado))
         try:
-            aprobado="no"
+            aprobado=0
             if nota>=5:
-                aprobado="si"
-            r = requests.put('apibase', json = {'DNI_alumno':dni_alumno, 'id_asignatura':idAsignatura, 'aprobada':aprobado})
+                aprobado=1
+            r = requests.put(apibase, json = {'DNI_alumno':dni_alumno, 'id_asignatura':idAsignatura, 'aprobada':aprobado})
             r.raise_for_status()
         except requests.exceptions.RequestException as e:
             print("RequestException - Error al conectar con el microservicio de matriculacion\n")

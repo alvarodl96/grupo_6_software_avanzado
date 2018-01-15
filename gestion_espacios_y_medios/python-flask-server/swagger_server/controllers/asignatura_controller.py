@@ -10,22 +10,21 @@ from flask import abort
 
 user = "root"
 password = ""
-database = "universidad"
+database = "gestioneym"
 
-def borra_asignatura(id):
+def borra_asignatura(codigo):
     """
     Borra una asignatura
-    Borra una asignatura y todas sus notas.
-    :param id: ID de la asignatura
-    :type id: int
+    Borra una asignatura
+    :param codigo: codigo de la asignatura
+    :type codigo: int
 
     :rtype: None
     """
     try:
         cnx = mysql.connector.connect(user=user, password=password, database=database)    
         cursor = cnx.cursor()
-        #cursor.execute("DELETE FROM `calificacion` WHERE `calificacion`.`id_asignatura` = {}".format(id))
-        cursor.execute("DELETE FROM `asignatura` WHERE `asignatura`.`id` = {}".format(id))
+        cursor.execute("DELETE FROM `asignatura` WHERE `asignatura`.`codigo_asignatura` = {}".format(codigo))
         cnx.commit()
     except mysql.connector.Error as e:
         cursor.close()
@@ -40,11 +39,11 @@ def borra_asignatura(id):
     return "Asignatura borrada correctamente."
 
 
-def crear_asignatura(asignatura):
+def crea_asignatura(asignatura=None):
     """
-    Crea una asignatura
-    Añade una asignatura a la lista de asignaturas.
-    :param asignatura: La asignatura que se va a añadir.
+    Crea asignatura
+    Crea asignatura
+    :param asignatura: La asignatura se va a añadir
     :type asignatura: dict | bytes
 
     :rtype: None
@@ -54,16 +53,37 @@ def crear_asignatura(asignatura):
     try:
         cnx = mysql.connector.connect(user=user, password=password, database=database)    
         cursor = cnx.cursor()
-        cursor.execute("INSERT INTO `asignatura` (`id`, `nombre`, `departamento`, `acta_cerrada`) "
-                   +"VALUES (\'{}\', \'{}\', \'{}\', 0)".format(asignatura.id, asignatura.nombre, asignatura.departamento))
-        cnx.commit()
-        cursor.execute("INSERT INTO `imparte` (`id_asignatura`, `dni_profesor`) "
-                   +"VALUES (\'{}\', \'{}\')".format(asignatura.id, asignatura.dni_profesor))
-        cnx.commit()
+        cursor.execute("INSERT INTO asignatura (codigo_asignatura,numero_alumnos) "
+                   +"VALUES (\'{}\', \'{}\')".format(asignatura.codigo_asignatura, asignatura.numero_alumnos))
+        cnx.commit()   
     except mysql.connector.Error as e:
         cursor.close()
         cnx.close()
         abort(400, "La asignatura no ha podido ser creada.")
     cursor.close()
-    cnx.close()
+    cnx.close()  
     return "Asignatura creada correctamente."
+
+
+def devuelve_asignatura(codigo):
+    """
+    Devuelve una asignatura
+    Devuelve una asignatura
+    :param codigo: codigo de la asignatura
+    :type codigo: int
+
+    :rtype: List[Asignatura]
+    """
+    cnx = mysql.connector.connect(user=user, password=password, database=database)
+    cursor = cnx.cursor()
+    cursor.execute("SELECT * FROM asignatura WHERE codigo_asignatura = \""+str(codigo)+"\"")
+    DB = {}
+    tuplas = 0
+    for (codigo_asignatura,numero_alumnos) in cursor:
+        DB[tuplas] = Asignatura(codigo_asignatura,numero_alumnos)
+        tuplas += 1
+    cursor.close()
+    cnx.close()
+    if tuplas == 0:
+        return abort(404, "La asignatura no existe")
+    return [Asignatura for _, Asignatura in DB.items()]
