@@ -1,0 +1,272 @@
+---
+swagger: "2.0"
+info:
+  description: "Gestion de matriculas"
+  version: "1.0.0"
+  title: "Matriculacion"
+host: "localhost:8080"
+basePath: "/matriculacion"
+tags:
+- name: "Alumno"
+  description: "gestion de alumnos"
+- name: "Asignatura"
+  description: "gestion de asignaturas"
+- name: "Matricula"
+  description: "Relacion de asignaturas con alumnos"
+- name: "Cerrar"
+  description: "Cierra el periodo de matriculacion"
+schemes:
+- "https"
+paths:
+  /Alumno:
+    get:
+      tags:
+      - "Alumno"
+      summary: "Obtiene un alumno"
+      description: "Devuelve un alumno"
+      operationId: "alumno_get"
+      parameters:
+      - name: "dni"
+        in: "query"
+        description: "DNI del alumno"
+        required: false
+        type: "integer"
+      responses:
+        200:
+          description: "Devuelve un alumno"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/inline_response_200"
+        404:
+          description: "Alumno no encontrado"
+      x-swagger-router-controller: "swagger_server.controllers.alumno_controller"
+    post:
+      tags:
+      - "Alumno"
+      summary: "Crea un alumno"
+      description: "Annade un alumno a la base de datos"
+      operationId: "alumno_post"
+      parameters:
+      - in: "body"
+        name: "alumno"
+        description: "La persona a crear"
+        required: false
+        schema:
+          $ref: "#/definitions/alumno"
+      responses:
+        200:
+          description: "Alumno creado"
+        400:
+          description: "El alumno no pudo ser creado"
+      x-swagger-router-controller: "swagger_server.controllers.alumno_controller"
+  /Matricula:
+    get:
+      tags:
+      - "Matricula"
+      summary: "Obtiene las asignaturas de un alumno"
+      description: "Devuelve la matricula de un alumno"
+      operationId: "matricula_get"
+      parameters:
+      - name: "dni"
+        in: "query"
+        description: "DNI del alumno"
+        required: false
+        type: "integer"
+      responses:
+        200:
+          description: "Devuelve una matricula"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/inline_response_200_1"
+        404:
+          description: "Alumno no encontrado"
+      x-swagger-router-controller: "swagger_server.controllers.matricula_controller"
+    post:
+      tags:
+      - "Matricula"
+      summary: "Crea una matricula"
+      description: "Annade una matricula en la base de datos"
+      operationId: "matricula_post"
+      parameters:
+      - in: "body"
+        name: "matricula"
+        description: "La matricula a crear"
+        required: false
+        schema:
+          $ref: "#/definitions/matricula_1"
+      responses:
+        200:
+          description: "Matricula creada"
+        400:
+          description: "La matricula no pudo ser creada"
+      x-swagger-router-controller: "swagger_server.controllers.matricula_controller"
+    put:
+      tags:
+      - "Matricula"
+      summary: "Crea una matricula"
+      description: "Annade una matricula en la base de datos"
+      operationId: "matricula_put"
+      parameters:
+      - in: "body"
+        name: "matricula"
+        description: "La matricula a crear"
+        required: false
+        schema:
+          $ref: "#/definitions/matricula"
+      responses:
+        200:
+          description: "Calificacion actualizada"
+        400:
+          description: "La calificacion no ha podido ser actualizada"
+      x-swagger-router-controller: "swagger_server.controllers.matricula_controller"
+  /Asignatura/id:
+    get:
+      tags:
+      - "Asignatura"
+      summary: "Obtiene la asignatura"
+      description: "Devuelve la asignatura en funcion de id"
+      operationId: "asignatura_id_get"
+      parameters:
+      - name: "id"
+        in: "query"
+        description: "id de la asignatura"
+        required: false
+        type: "integer"
+      responses:
+        200:
+          description: "Devuelve una matricula"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/inline_response_200_2"
+        404:
+          description: "Asignatura no encontrada"
+      x-swagger-router-controller: "swagger_server.controllers.asignatura_controller"
+    post:
+      tags:
+      - "Asignatura"
+      summary: "Crea una asignatura"
+      description: "Annade una asignatura en la base de datos"
+      operationId: "asignatura_id_post"
+      parameters:
+      - in: "body"
+        name: "asignatura"
+        description: "La asignatura a crear"
+        required: false
+        schema:
+          $ref: "#/definitions/asignatura"
+      responses:
+        200:
+          description: "Asignatura creada"
+        400:
+          description: "La asignatura no pudo ser creada"
+      x-swagger-router-controller: "swagger_server.controllers.asignatura_controller"
+  /Asignatura/{id}:
+    delete:
+      tags:
+      - "Asignatura"
+      summary: "Borra una asignatura"
+      operationId: "asignatura_id_delete"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "id de la asignatura"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "Asignatura borrada con exito"
+        404:
+          description: "Asignatura no encontrada"
+      x-swagger-router-controller: "swagger_server.controllers.asignatura_controller"
+  /Cerrar:
+    post:
+      tags:
+      - "Cerrar"
+      summary: "Cierra el proceso de matriculacion"
+      description: "cierra la matriculacion"
+      operationId: "cerrar_post"
+      parameters: []
+      responses:
+        200:
+          description: "Periodo de matriculacion cerrado"
+      x-swagger-router-controller: "swagger_server.controllers.cerrar_controller"
+definitions:
+  asignatura:
+    properties:
+      id:
+        type: "integer"
+      nombre:
+        type: "string"
+      n_creditos:
+        type: "integer"
+  inline_response_200_1:
+    properties:
+      aprobada:
+        type: "integer"
+      coste:
+        type: "integer"
+      DNI_alumno:
+        type: "integer"
+      id_asignatura:
+        type: "integer"
+  matricula:
+    properties:
+      aprobada:
+        type: "integer"
+      DNI_alumno:
+        type: "integer"
+      id_asignatura:
+        type: "integer"
+  inline_response_200:
+    required:
+    - "dni"
+    properties:
+      apellidos:
+        type: "string"
+      creditos:
+        type: "string"
+      curso:
+        type: "string"
+      dni:
+        type: "integer"
+      nombre:
+        type: "string"
+      titulacion:
+        type: "string"
+  inline_response_200_2:
+    required:
+    - "id"
+    properties:
+      id:
+        type: "integer"
+      nombre:
+        type: "string"
+      n_creditos:
+        type: "integer"
+  alumno:
+    properties:
+      apellidos:
+        type: "string"
+      creditos:
+        type: "string"
+      curso:
+        type: "string"
+      dni:
+        type: "integer"
+      nombre:
+        type: "string"
+      titulacion:
+        type: "string"
+  matricula_1:
+    properties:
+      aprobada:
+        type: "integer"
+      coste:
+        type: "integer"
+      DNI_alumno:
+        type: "integer"
+      id_asignatura:
+        type: "integer"
